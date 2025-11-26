@@ -10,9 +10,10 @@ public class Signup2 extends JFrame implements ActionListener{
     JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13;
     JButton b;
     JRadioButton r1,r2,r3,r4;
-    JTextField t1,t2,t3;
+    JTextField t1,t2;
     JComboBox c1,c2,c3,c4,c5;
     String form_number;
+
     Signup2(String form_number){
         
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/logo.jpg"));
@@ -22,11 +23,10 @@ public class Signup2 extends JFrame implements ActionListener{
         l14.setBounds(150, 0, 100, 100);
         add(l14);
         
-        
         this.form_number = form_number;
         setTitle("NEW ACCOUNT APPLICATION FORM - PAGE 2");
         
-        l1 = new JLabel("Page 2: Additonal Details");
+        l1 = new JLabel("Page 2: Additional Details");
         l1.setFont(new Font("Raleway", Font.BOLD, 22));
         
         l2 = new JLabel("Religion:");
@@ -75,24 +75,44 @@ public class Signup2 extends JFrame implements ActionListener{
         
         t2 = new JTextField();
         t2.setFont(new Font("Raleway", Font.BOLD, 14));
-        
+
+        // --------------------------
+        // RADIO BUTTONS (FIXED)
+        // --------------------------
         r1 = new JRadioButton("Yes");
         r1.setFont(new Font("Raleway", Font.BOLD, 14));
         r1.setBackground(Color.WHITE);
-        
+        r1.setFocusPainted(false);
+        r1.setFocusable(false);
+
         r2 = new JRadioButton("No");
         r2.setFont(new Font("Raleway", Font.BOLD, 14));
         r2.setBackground(Color.WHITE);
-        
+        r2.setFocusPainted(false);
+        r2.setFocusable(false);
+
         r3 = new JRadioButton("Yes");
         r3.setFont(new Font("Raleway", Font.BOLD, 14));
         r3.setBackground(Color.WHITE);
-        
+        r3.setFocusPainted(false);
+        r3.setFocusable(false);
+
         r4 = new JRadioButton("No");
         r4.setFont(new Font("Raleway", Font.BOLD, 14));
         r4.setBackground(Color.WHITE);
-        
-        
+        r4.setFocusPainted(false);
+        r4.setFocusable(false);
+
+        // BUTTON GROUP FIX
+        ButtonGroup seniorGroup = new ButtonGroup();
+        seniorGroup.add(r1);
+        seniorGroup.add(r2);
+
+        ButtonGroup accountGroup = new ButtonGroup();
+        accountGroup.add(r3);
+        accountGroup.add(r4);
+        // --------------------------
+
         String religion[] = {"Hindu","Muslim","Sikh","Christian","Other"};
         c1 = new JComboBox(religion);
         c1.setBackground(Color.WHITE);
@@ -113,14 +133,12 @@ public class Signup2 extends JFrame implements ActionListener{
         c4.setBackground(Color.WHITE);
         c4.setFont(new Font("Raleway", Font.BOLD, 14));
         
-        String occupation[] = {"Salaried","Self-Employmed","Business","Student","Retired","Others"};
+        String occupation[] = {"Salaried","Self-Employed","Business","Student","Retired","Others"};
         c5 = new JComboBox(occupation);
         c5.setBackground(Color.WHITE);
         c5.setFont(new Font("Raleway", Font.BOLD, 14));
        
-        
         setLayout(null);
-        
         
         l12.setBounds(700,10,60,30);
         add(l12);
@@ -217,48 +235,35 @@ public class Signup2 extends JFrame implements ActionListener{
         String aadhar = t2.getText().trim();
         
         String senior_citizen = "";
-        if(r1.isSelected()){ 
-            senior_citizen = "Yes";
-        }
-        else if(r2.isSelected()){ 
-            senior_citizen = "No";
-        }
-           
-        String existing_account = "";
-        if(r3.isSelected()){ 
-            existing_account = "Yes";
-        }else if(r4.isSelected()){ 
-            existing_account = "No";
-        }
+        if(r1.isSelected()){ senior_citizen = "Yes"; }
+        else if(r2.isSelected()){ senior_citizen = "No"; }
 
-        // ----------------------------  
-        //        DATA VALIDATION  
-        // ----------------------------
+        String existing_account = "";
+        if(r3.isSelected()){ existing_account = "Yes"; }
+        else if(r4.isSelected()){ existing_account = "No"; }
+
+        // -------- DATA VALIDATION --------
 
         if(pan.equals("") || aadhar.equals("")){
             JOptionPane.showMessageDialog(null, "All fields are required!");
             return;
         }
 
-        // PAN validation (ABCDE1234F)
         if(!pan.matches("[A-Z]{5}[0-9]{4}[A-Z]{1}")){
             JOptionPane.showMessageDialog(null, "Invalid PAN format! Example: ABCDE1234F");
             return;
         }
 
-        // Aadhaar validation
         if(!aadhar.matches("\\d{12}")){
             JOptionPane.showMessageDialog(null, "Aadhar number must be 12 digits only!");
             return;
         }
 
-        // Senior Citizen selection
         if(!r1.isSelected() && !r2.isSelected()){
             JOptionPane.showMessageDialog(null, "Select Senior Citizen option!");
             return;
         }
 
-        // Existing Account selection
         if(!r3.isSelected() && !r4.isSelected()){
             JOptionPane.showMessageDialog(null, "Select Existing Account option!");
             return;
@@ -274,11 +279,8 @@ public class Signup2 extends JFrame implements ActionListener{
       
         }catch(Exception ex){
              ex.printStackTrace();
-        }
-    
-               
+        }    
     }
-    
     
     public static void main(String[] args){
         new Signup2("").setVisible(true);
